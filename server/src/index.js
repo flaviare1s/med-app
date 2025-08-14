@@ -1,6 +1,7 @@
 import express from "express";
 import pkg from "body-parser";
-import router from "./routes/router.js"
+import router from "./routes/router.js";
+import "./database/database.js";
 
 const app = express();
 const { json, urlencoded } = pkg;

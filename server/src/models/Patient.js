@@ -2,28 +2,14 @@ import { mongoose } from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const doctorSchema = new Schema({
+const patientSchema = new Schema({
   name: {
     type: String,
-    required: [true, "Doctor name is required."],
+    required: [true, "Patient name is required."],
   },
-  login: {
-    type: String,
-    required: [true, "Login is required."],
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: [true, "Password is required."],
-  },
-  medicalSpecialty: {
-    type: String,
-    required: [true, "Medical Specialty is required."],
-  },
-  medicalRegistration: {
-    type: String,
-    required: [true, "Medical Registration is required."],
-    unique: true,
+  birthDate: {
+    type: Date,
+    required: [true, "Birth Date is required."],
   },
   email: {
     type: String,
@@ -46,6 +32,6 @@ const doctorSchema = new Schema({
   },
 });
 
-const doctor = mongoose.model("Doctor", doctorSchema);
+const patient = mongoose.model("patient", patientSchema);
 
-export default doctor;
+export default patient;
