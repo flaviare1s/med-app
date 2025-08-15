@@ -7,8 +7,8 @@ import prescriptionController from "../controllers/PrescriptionController.js";
 let router = express.Router();
 
 router.get("/", (req, res) => {
-  console.log("Hello World");
-  res.status(200).json({ message: "Hello World" });
+  console.log("MEDAPP");
+  res.status(200).json({ message: "MEDAPP" });
 });
 
 router.use("/", appointmentController);
