@@ -14,7 +14,7 @@ router.get("/doctors", async (_req, res) => {
   }
 });
 
-router.get("/getDoctor/:id", async (req, res) => {
+router.get("/doctors/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const doctor = await DoctorService.getDoctor(id);
@@ -25,7 +25,7 @@ router.get("/getDoctor/:id", async (req, res) => {
   }
 });
 
-router.post("/postDoctor", async function (req, res) {
+router.post("/doctors", async function (req, res) {
   const {
     name,
     login,

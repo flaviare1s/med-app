@@ -14,7 +14,7 @@ router.get("/patients", async (_req, res) => {
   }
 });
 
-router.get("/getPatient/:id", async (req, res) => {
+router.get("/patients/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const patient = await PatientService.getPatient(id);
@@ -25,7 +25,7 @@ router.get("/getPatient/:id", async (req, res) => {
   }
 });
 
-router.post("/postPatient", async function (req, res) {
+router.post("/patients", async function (req, res) {
   const { name, birthDate, email, phone } = req.body;
   try {
     const patient = await PatientService.savePatient({

@@ -24,7 +24,7 @@ router.get("/appointments/:id", async (req, res) => {
   }
 });
 
-router.post("/postAppointment", async (req, res) => {
+router.post("/appointments", async (req, res) => {
   const { date, doctorId, patientId } = req.body;
   try {
     const appointment = await AppointmentService.saveAppointment({

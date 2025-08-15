@@ -59,7 +59,7 @@ router.get("/prescriptions", async (_req, res) => {
   }
 });
 
-router.get("/getPrescription/:id", async (req, res) => {
+router.get("/prescriptions/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const prescription = await PrescriptionService.getPrescription(id);
@@ -70,7 +70,7 @@ router.get("/getPrescription/:id", async (req, res) => {
   }
 });
 
-router.post("/postPrescription", async function (req, res) {
+router.post("/prescriptions", async function (req, res) {
   const { date, appointmentId, medicine, dosage, instructions } = req.body;
   try {
     const prescription = await PrescriptionService.savePrescription({
