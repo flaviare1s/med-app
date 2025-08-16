@@ -3,12 +3,19 @@ import multer from "multer";
 import process from "process";
 import path from "path";
 import PrescriptionService from "../services/PrecriptionService.js";
+import fs from "fs";
 
 let router = express.Router();
 
+const prescriptionsDir = path.resolve(process.cwd(), "src", "prescriptions");
+
+if (!fs.existsSync(prescriptionsDir)) {
+  fs.mkdirSync(prescriptionsDir);
+}
+
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {
-    cb(null, "./MediApp/prescriptions/");
+    cb(null, prescriptionsDir);
   },
   filename: function (_req, file, cb) {
     cb(null, file.originalname);
@@ -25,7 +32,7 @@ router.post(
       const { id } = req.params;
       let prescription = await PrescriptionService.getPrescription(id);
 
-      const file = "./MediApp/src/prescriptions/" + req.file.originalname;
+      const file = path.join(prescriptionsDir, req.file.filename);
       prescription = await PrescriptionService.updatePrescription(id, { file });
 
       return res.status(200).send(prescription);
@@ -41,7 +48,7 @@ router.get("/readPrescription/:id", async (req, res) => {
 
   try {
     const prescription = await PrescriptionService.getPrescription(id);
-    let filePath = path.resolve(process.cwd() + "/../" + prescription.file);
+    const filePath = path.resolve(prescription.file);
     res.status(200).sendFile(filePath);
   } catch (error) {
     console.error(error);
@@ -125,7 +132,7 @@ router.get("/generatePrescription/:id", async (req, res) => {
     let generatedPrescription =
       await PrescriptionService.generatePrescriptionFile(prescription);
 
-    const file = "./src/prescriptions/" + id + ".pdf";
+    const file = path.join(prescriptionsDir, id + ".pdf");
     generatedPrescription = await PrescriptionService.updatePrescription(id, {
       file,
     });
