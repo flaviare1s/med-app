@@ -54,13 +54,14 @@ export default function Home() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-white p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-white p-4">
+      <h1 className="text-4xl font-bold text-teal-600 mb-8">🩺 MedApp</h1>
       <form
         className="w-full max-w-md bg-white shadow-lg rounded-xl p-8 sm:p-10 flex flex-col gap-6"
         onSubmit={authentication}
         noValidate
       >
-        <h1 className="text-3xl font-bold text-teal-600 text-center">Login</h1>
+        <h2 className="text-3xl font-bold text-teal-600 text-center">Login</h2>
 
         <div className="flex flex-col gap-1">
           <label className="text-sm font-semibold text-gray-700">
