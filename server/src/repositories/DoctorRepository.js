@@ -4,7 +4,7 @@ const getAllDoctors = async () => {
   try {
     return await Doctor.find();
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -12,7 +12,7 @@ const getDoctor = async (id) => {
   try {
     return await Doctor.findById(id);
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -37,7 +37,7 @@ const saveDoctor = async ({
     });
     return await doctor.save();
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -60,7 +60,7 @@ const updateDoctor = async (
       { new: true }
     );
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -68,7 +68,7 @@ const deleteDoctor = async (id) => {
   try {
     return await Doctor.findByIdAndDelete(id);
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -77,7 +77,7 @@ const getDoctorByLogin = async (login) => {
   try {
     return await Doctor.findOne({ login: login });
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 

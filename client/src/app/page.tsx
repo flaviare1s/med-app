@@ -13,7 +13,6 @@ export default function Home() {
   const authentication = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // reset errors
     setErrorLogin(null);
     setErrorPassword(null);
     setErrorServer(null);
@@ -21,12 +20,12 @@ export default function Home() {
     let valid = true;
 
     if (!login) {
-      setErrorLogin("Digite seu usuário");
+      setErrorLogin("Please enter your username");
       valid = false;
     }
 
     if (!password) {
-      setErrorPassword("Digite sua senha");
+      setErrorPassword("Please enter your password");
       valid = false;
     }
 
@@ -47,10 +46,10 @@ export default function Home() {
         sessionStorage.setItem("token", content.token);
         router.push("/home");
       } else {
-        setErrorServer("Usuário ou senha inválidos");
+        setErrorServer("Invalid username or password");
       }
     } catch (err) {
-      setErrorServer("Erro ao conectar com o servidor.");
+      setErrorServer("Error connecting to the server.");
     }
   };
 
@@ -64,11 +63,13 @@ export default function Home() {
         <h1 className="text-3xl font-bold text-teal-600 text-center">Login</h1>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold text-gray-700">Usuário</label>
+          <label className="text-sm font-semibold text-gray-700">
+            Username
+          </label>
           <input
             type="text"
             name="login"
-            placeholder="Digite seu usuário"
+            placeholder="Enter your username"
             autoComplete="off"
             className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:border-blue-400 transition ${
               errorLogin
@@ -83,11 +84,13 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold text-gray-700">Senha</label>
+          <label className="text-sm font-semibold text-gray-700">
+            Password
+          </label>
           <input
             type="password"
             name="password"
-            placeholder="Digite sua senha"
+            placeholder="Enter your password"
             autoComplete="off"
             className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:border-blue-400 transition ${
               errorPassword
@@ -105,7 +108,7 @@ export default function Home() {
           type="submit"
           className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 rounded-lg transition"
         >
-          Entrar
+          Sign In
         </button>
 
         {errorServer && (
@@ -115,8 +118,8 @@ export default function Home() {
         )}
 
         <p className="text-center text-gray-500 text-sm mt-2">
-          OBS.: Para testar a aplicação, use usuário: <b>teste</b> e senha:{" "}
-          <b>1234</b>
+          Note: To test the app in deployment, use username: <b>teste</b> and
+          password: <b>1234</b>
         </p>
       </form>
     </div>

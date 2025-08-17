@@ -25,33 +25,37 @@ router.get("/doctors/:id", async (req, res) => {
   }
 });
 
-router.post("/doctors", async function (req, res) {
-  const {
-    name,
-    login,
-    password,
-    medicalSpecialty,
-    medicalRegistration,
-    email,
-    phone,
-  } = req.body;
+router.post("/doctors", async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const doctor = await DoctorService.saveDoctor({
-      name,
-      login,
+      ...req.body,
       password: hashedPassword,
-      medicalSpecialty,
-      medicalRegistration,
-      email,
-      phone,
     });
-    res.status(201).send(doctor);
+    res.status(201).json(doctor);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Falha ao registrar médico" + error);
+
+    if (error.name === "ValidationError") {
+      const errors = {};
+      for (const field in error.errors) {
+        errors[field] = error.errors[field].message;
+      }
+      return res.status(400).json({ errors });
+    }
+
+    if (error.code === 11000) {
+      const errors = {};
+      for (const key in error.keyValue) {
+        errors[key] = `${key} already exists.`;
+      }
+      return res.status(400).json({ errors });
+    }
+
+    res.status(500).json({ error: "Failed to create doctor." });
   }
 });
+
 
 router.put("/doctors/:id", async (req, res) => {
   const { id } = req.params;
