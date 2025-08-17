@@ -28,13 +28,13 @@ export default function Home() {
         <div className="bg-white shadow-lg rounded-xl p-6 flex flex-col gap-4">
           <h2 className="text-2xl font-semibold text-blue-700">Pacients</h2>
           <Link
-            href="/pacient/create"
+            href="/patient/create"
             className="block bg-teal-500 hover:bg-teal-600 text-white text-center py-2 rounded-lg transition"
           >
             Create new pacient
           </Link>
           <Link
-            href="/pacient/list"
+            href="/patient/list"
             className="block bg-blue-100 hover:bg-blue-200 text-blue-700 text-center py-2 rounded-lg transition"
           >
             List all pacients
