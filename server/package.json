@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "create-admin": "node createAdmin.js",
     "check-users": "node checkUsers.js"
+  },
+  "jest": {
+    "testPathIgnorePatterns": ["./__tests__/database"]
   },
   "keywords": [],
   "author": "",
@@ -19,7 +22,9 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "jest": "^30.0.5",
     "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^10.2.0",
     "mongoose": "^8.17.1",
     "multer": "^2.0.2",
     "nodemon": "^3.1.10",
