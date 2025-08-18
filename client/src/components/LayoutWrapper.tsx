@@ -22,7 +22,9 @@ const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   return (
     <>
       {shouldShowNavbar && <Navbar />}
-      <main className={shouldShowNavbar ? "pt-16" : ""}>{children}</main>
+      <main className={shouldShowNavbar ? "pt-16 lg:pt-0" : ""}>
+        {children}
+      </main>
     </>
   );
 };
