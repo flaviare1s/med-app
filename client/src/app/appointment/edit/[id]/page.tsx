@@ -44,17 +44,38 @@ export default function AppointmentEdit({
   const [patients, setPatients] = useState<Patient[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // Verificar se há token de autenticação
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      console.log("No token found, redirecting to login");
+      router.push("/");
+      return;
+    }
+  }, [router]);
+
   // Fetch appointment data on mount
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+
     fetch(`${API_URL}/appointments/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("token") || "",
+        Authorization: token,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          console.log("Unauthorized, redirecting to login");
+          router.push("/");
+          return;
+        }
+        return response.json();
+      })
       .then((data) => {
+        if (!data) return;
         // Format date for datetime-local input
         const formattedDate = data.date
           ? new Date(data.date).toISOString().slice(0, 16)
@@ -65,33 +86,55 @@ export default function AppointmentEdit({
         setPatientId(data.patientId);
       })
       .catch(() => setError("Falha ao carregar dados da consulta."));
-  }, [id]);
+  }, [id, router]);
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+
     fetch(`${API_URL}/doctors`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("token") || "",
+        Authorization: token,
       },
     })
-      .then((response) => response.json())
-      .then((data) => setDoctors(data))
+      .then((response) => {
+        if (response.status === 401) {
+          router.push("/");
+          return;
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data) setDoctors(data);
+      })
       .catch(() => setError("Falha ao carregar médicos."));
-  }, []);
+  }, [router]);
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+
     fetch(`${API_URL}/patients`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("token") || "",
+        Authorization: token,
       },
     })
-      .then((response) => response.json())
-      .then((data) => setPatients(data))
+      .then((response) => {
+        if (response.status === 401) {
+          router.push("/");
+          return;
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data) setPatients(data);
+      })
       .catch(() => setError("Falha ao carregar pacientes."));
-  }, []);
+  }, [router]);
 
   const handleEdit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -129,7 +172,7 @@ export default function AppointmentEdit({
     <div className="p-6 sm:p-10 min-h-screen bg-gray-50">
       <Link
         href="/appointment/list"
-        className="mb-4 inline-block font-medium text-blue-600 hover:text-blue-800 transition"
+        className="mb-4 inline-block font-medium text-teal-600 hover:text-teal-800 transition"
       >
         &larr; Voltar à Lista de Consultas
       </Link>
@@ -138,8 +181,8 @@ export default function AppointmentEdit({
         className="w-full max-w-lg bg-white shadow-md rounded-lg p-6"
         onSubmit={handleEdit}
       >
-        <h2 className="text-2xl font-bold text-yellow-500 mb-4 underline">
-          Editar Consulta
+        <h2 className="text-2xl font-bold text-teal-500 mb-4">
+          Atualizar Consulta
         </h2>
 
         <div className="mb-4">
