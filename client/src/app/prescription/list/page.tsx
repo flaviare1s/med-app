@@ -16,7 +16,9 @@ interface Prescription {
 export default function PrescriptionList() {
   const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<{ [key: string]: File }>(
+    {}
+  );
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -68,6 +70,7 @@ export default function PrescriptionList() {
   };
 
   const uploadPrescription = async (id: string) => {
+    const file = selectedFiles[id];
     if (!file) {
       setError("Por favor, selecione um arquivo.");
       return;
@@ -93,7 +96,11 @@ export default function PrescriptionList() {
 
       if (response.ok) {
         fetchPrescriptions();
-        setFile(null);
+        setSelectedFiles((prev) => {
+          const newFiles = { ...prev };
+          delete newFiles[id];
+          return newFiles;
+        });
       } else {
         throw new Error("Falha no upload");
       }
@@ -163,112 +170,130 @@ export default function PrescriptionList() {
         </div>
       )}
 
-      <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
-        <table className="min-w-full table-auto border-collapse">
-          <thead className="bg-teal-600 text-white">
-            <tr>
-              <th className="p-3 border border-gray-200 text-left">Data</th>
-              <th className="p-3 border border-gray-200 text-center">
-                Medicamento
-              </th>
-              <th className="p-3 border border-gray-200 text-center">
-                Dosagem
-              </th>
-              <th className="p-3 border border-gray-200 text-center">
-                Instruções
-              </th>
-              <th className="p-3 border border-gray-200 text-center">Status</th>
-              <th className="p-3 border border-gray-200 text-center">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {prescriptions.map((prescription) => (
-              <tr
-                key={prescription._id}
-                className="hover:bg-gray-100 transition-colors"
-              >
-                <td className="p-3 border border-gray-200">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {prescriptions.map((prescription) => (
+          <div
+            key={prescription._id}
+            className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+          >
+            {/* Header do Card */}
+            <div className="bg-teal-50 px-4 py-3 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-teal-800">
                   {formatDate(prescription.date)}
-                </td>
-                <td className="p-3 border border-gray-200 text-center">
-                  {prescription.medicine}
-                </td>
-                <td className="p-3 border border-gray-200 text-center">
-                  {prescription.dosage}
-                </td>
-                <td className="p-3 border border-gray-200 text-center">
-                  {prescription.instructions || "N/A"}
-                </td>
-                <td className="p-3 border border-gray-200 text-center">
-                  {prescription.file ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-                      <FaFilePdf />
-                      Arquivo Disponível
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
-                      <FaFileAlt />
-                      Aguardando Arquivo
-                    </span>
-                  )}
-                </td>
-                <td className="p-3 border border-gray-200 text-center">
-                  <div className="flex justify-center gap-2 flex-wrap">
-                    {!prescription.file && (
-                      <>
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="file"
-                            accept=".pdf,.doc,.docx"
-                            onChange={(e) =>
-                              setFile(e.target.files?.[0] || null)
-                            }
-                            className="text-xs"
-                          />
-                          <button
-                            onClick={() => uploadPrescription(prescription._id)}
-                            disabled={loading || !file}
-                            className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white p-2 rounded transition flex items-center gap-1 text-xs"
-                          >
-                            <FaUpload />
-                            Upload
-                          </button>
-                        </div>
-                        <button
-                          onClick={() => generatePrescription(prescription._id)}
-                          disabled={loading}
-                          className="bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 text-white p-2 rounded transition flex items-center gap-1 text-xs"
-                        >
-                          <FaFileAlt />
-                          Gerar PDF
-                        </button>
-                      </>
-                    )}
-                    {prescription.file && (
-                      <button
-                        onClick={() => downloadFile(prescription._id)}
-                        className="bg-green-500 hover:bg-green-600 text-white p-2 rounded transition flex items-center gap-1 text-xs"
-                      >
-                        <FaDownload />
-                        Download
-                      </button>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {prescriptions.length === 0 && (
-              <tr>
-                <td
-                  colSpan={6}
-                  className="p-4 text-center text-gray-500 font-medium"
+                </span>
+                {prescription.file ? (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                    <FaFilePdf />
+                    Disponível
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">
+                    <FaFileAlt />
+                    Pendente
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Conteúdo do Card */}
+            <div className="p-4 space-y-3">
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  Medicamento
+                </h3>
+                <p className="text-gray-700 text-sm">{prescription.medicine}</p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">Dosagem</h3>
+                <p className="text-gray-700 text-sm">{prescription.dosage}</p>
+              </div>
+
+              {prescription.instructions && (
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">
+                    Instruções
+                  </h3>
+                  <p className="text-gray-700 text-sm">
+                    {prescription.instructions}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Ações do Card */}
+            <div className="bg-gray-50 px-4 py-3 border-t border-gray-200">
+              {prescription.file ? (
+                <button
+                  onClick={() => downloadFile(prescription._id)}
+                  className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition flex items-center justify-center gap-2"
                 >
-                  Nenhuma prescrição encontrada.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                  <FaDownload />
+                  Baixar PDF
+                </button>
+              ) : (
+                <div className="space-y-3">
+                  {/* Upload de Arquivo */}
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-2">
+                      Fazer Upload de Arquivo
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            setSelectedFiles((prev) => ({
+                              ...prev,
+                              [prescription._id]: file,
+                            }));
+                          }
+                        }}
+                        className="flex-1 text-xs border border-gray-300 rounded px-2 py-1"
+                      />
+                      <button
+                        onClick={() => uploadPrescription(prescription._id)}
+                        disabled={loading || !selectedFiles[prescription._id]}
+                        className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-3 py-1 rounded text-xs font-medium transition flex items-center gap-1"
+                      >
+                        <FaUpload />
+                        Upload
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Gerar PDF */}
+                  <button
+                    onClick={() => generatePrescription(prescription._id)}
+                    disabled={loading}
+                    className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition flex items-center justify-center gap-2"
+                  >
+                    <FaFileAlt />
+                    Gerar PDF Automaticamente
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+
+        {prescriptions.length === 0 && (
+          <div className="col-span-full text-center py-12">
+            <FaFileAlt className="mx-auto text-gray-400 text-4xl mb-4" />
+            <p className="text-gray-500 font-medium">
+              Nenhuma prescrição encontrada.
+            </p>
+            <Link
+              href="/prescription/create"
+              className="inline-block mt-4 bg-teal-500 hover:bg-teal-600 text-white font-medium py-2 px-4 rounded-lg transition"
+            >
+              Criar Primera Prescrição
+            </Link>
+          </div>
+        )}
       </div>
 
       {loading && (
