@@ -19,8 +19,15 @@ interface Doctor {
 export default function DoctorList() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     fetch(`${API_URL}/doctors`, {
       method: "GET",
       headers: {
@@ -31,9 +38,11 @@ export default function DoctorList() {
       .then((res) => res.json())
       .then((data) => setDoctors(data))
       .catch(() => setError("Falha ao carregar médicos."));
-  }, []);
+  }, [mounted]);
 
   const deleteDoctor = async (id: string) => {
+    if (!mounted) return;
+
     try {
       const response = await fetch(`${API_URL}/doctors/${id}`, {
         method: "DELETE",
@@ -53,6 +62,16 @@ export default function DoctorList() {
       setError("Erro no servidor. Não foi possível excluir o médico.");
     }
   };
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-6 sm:p-10">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-gray-500">Carregando...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 sm:p-10">

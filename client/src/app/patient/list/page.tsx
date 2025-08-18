@@ -14,8 +14,15 @@ interface Patient {
 export default function PatientList() {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     fetch(
       `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001"}/patients`,
       {
@@ -29,10 +36,12 @@ export default function PatientList() {
       .then((res) => res.json())
       .then((data) => setPatients(data))
       .catch(() => setError("Falha ao carregar pacientes."));
-  }, []);
+  }, [mounted]);
 
   // Delete patient
   const deletePatient = async (id: string) => {
+    if (!mounted) return;
+
     try {
       const response = await fetch(
         `${
@@ -57,6 +66,16 @@ export default function PatientList() {
       setError("Erro do servidor. Não foi possível excluir o paciente.");
     }
   };
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-6 sm:p-10">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-gray-500">Carregando...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 sm:p-10 min-h-screen bg-gray-50">

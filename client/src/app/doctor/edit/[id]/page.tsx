@@ -6,7 +6,11 @@ import React, { useEffect, useState } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
 
-export default function DoctorEdit({ params }: { params: Promise<{ id: string }> }) {
+export default function DoctorEdit({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const router = useRouter();
   const [id, setId] = useState<string>("");
 
@@ -38,7 +42,7 @@ export default function DoctorEdit({ params }: { params: Promise<{ id: string }>
 
   useEffect(() => {
     if (!id) return; // Aguardar o id ser resolvido
-    
+
     fetch(`${API_URL}/doctors/${id}`, {
       method: "GET",
       headers: {

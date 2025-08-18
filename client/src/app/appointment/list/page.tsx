@@ -13,7 +13,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
 interface Appointment {
   _id: string;
   date: string;
-  doctorId: string | { _id: string; name: string; medicalSpecialty: string } | null;
+  doctorId:
+    | string
+    | { _id: string; name: string; medicalSpecialty: string }
+    | null;
   patientId: string | { _id: string; name: string } | null;
 }
 
@@ -33,8 +36,15 @@ export default function AppointmentList() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [patients, setPatients] = useState<Patient[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     fetch(`${API_URL}/appointments`, {
       method: "GET",
       headers: {
@@ -47,9 +57,11 @@ export default function AppointmentList() {
         setAppointments(data);
       })
       .catch(() => setError("Falha ao carregar consultas."));
-  }, []);
+  }, [mounted]);
 
   useEffect(() => {
+    if (!mounted) return;
+
     fetch(`${API_URL}/doctors`, {
       method: "GET",
       headers: {
@@ -62,9 +74,11 @@ export default function AppointmentList() {
         setDoctors(data);
       })
       .catch(() => setError("Falha ao carregar médicos."));
-  }, []);
+  }, [mounted]);
 
   useEffect(() => {
+    if (!mounted) return;
+
     fetch(`${API_URL}/patients`, {
       method: "GET",
       headers: {
@@ -77,9 +91,11 @@ export default function AppointmentList() {
         setPatients(data);
       })
       .catch(() => setError("Falha ao carregar pacientes."));
-  }, []);
+  }, [mounted]);
 
   const deleteAppointment = async (id: string) => {
+    if (!mounted) return;
+
     try {
       const response = await fetch(`${API_URL}/appointments/${id}`, {
         method: "DELETE",
@@ -101,7 +117,10 @@ export default function AppointmentList() {
   };
 
   const findDoctorName = (
-    doctorData: string | { _id: string; name: string; medicalSpecialty: string } | null
+    doctorData:
+      | string
+      | { _id: string; name: string; medicalSpecialty: string }
+      | null
   ): string => {
     // Se é null ou undefined
     if (!doctorData) {
@@ -148,6 +167,16 @@ export default function AppointmentList() {
     const date = new Date(dateString);
     return date.toLocaleString("pt-BR");
   };
+
+  if (!mounted) {
+    return (
+      <div className="p-6 sm:p-10 min-h-screen bg-gray-50">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-gray-500">Carregando...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 sm:p-10 min-h-screen bg-gray-50">

@@ -41,7 +41,7 @@ export default function PacientEdit({ params }: PacientEditProps) {
 
   useEffect(() => {
     if (!id) return; // Aguardar o id ser resolvido
-    
+
     fetch(`${API_URL}/patients/${id}`, {
       method: "GET",
       headers: {

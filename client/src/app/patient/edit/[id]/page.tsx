@@ -13,7 +13,11 @@ interface Patient {
   phone: string;
 }
 
-export default function PatientEdit({ params }: { params: Promise<{ id: string }> }) {
+export default function PatientEdit({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const router = useRouter();
   const [id, setId] = useState<string>("");
 
@@ -40,7 +44,7 @@ export default function PatientEdit({ params }: { params: Promise<{ id: string }
   // Fetch patient data on mount
   useEffect(() => {
     if (!id) return; // Aguardar o id ser resolvido
-    
+
     fetch(`${API_URL}/patients/${id}`, {
       method: "GET",
       headers: {

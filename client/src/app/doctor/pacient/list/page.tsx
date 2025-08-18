@@ -15,8 +15,15 @@ interface Patient {
 export default function PatientList() {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     fetch(`${API_URL}/patients`, {
       method: "GET",
       headers: {
@@ -27,9 +34,11 @@ export default function PatientList() {
       .then((response) => response.json())
       .then((data) => setPatients(data))
       .catch(() => setError("Falha ao carregar pacientes."));
-  }, []); // Removido dependência que causava loop infinito
+  }, [mounted]); // Removido dependência que causava loop infinito
 
   const deletePatient = async (id: string) => {
+    if (!mounted) return;
+
     try {
       const response = await fetch(`${API_URL}/patients/${id}`, {
         method: "DELETE",
@@ -51,6 +60,16 @@ export default function PatientList() {
       setError("Erro de conexão ao deletar paciente.");
     }
   };
+
+  if (!mounted) {
+    return (
+      <div className="p-6 min-h-screen bg-gray-50">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-gray-500">Carregando...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 min-h-screen bg-gray-50">
