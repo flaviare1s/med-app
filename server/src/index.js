@@ -13,24 +13,44 @@ app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use(cors());
 
+// Definir rotas ANTES do listen
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK", message: "Server is running" });
+});
+
+app.use("/", router);
+
 // Função para inicializar o servidor
 const startServer = async () => {
   try {
     console.log("🔄 Iniciando servidor...");
     console.log("📊 Porta configurada:", PORT);
-    console.log("🔗 MongoDB URI:", process.env.MONGODB_URI ? "✅ Configurado" : "❌ Não configurado");
-    
-    // Criar usuário admin na inicialização (se não existir)
-    console.log("👤 Criando usuário admin...");
-    await createAdminUser();
-    console.log("✅ Usuário admin processado");
+    console.log(
+      "🔗 MongoDB URI:",
+      process.env.MONGODB_URI ? "✅ Configurado" : "❌ Não configurado"
+    );
 
-    app.listen(PORT, '0.0.0.0', () => {
+    // Inicializar servidor PRIMEIRO
+    const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server is running on port ${PORT}`);
       console.log("📋 Admin credentials:");
       console.log("   👤 Login: admin");
       console.log("   🔑 Password: admin");
     });
+
+    // Criar usuário admin DEPOIS do servidor estar rodando
+    console.log("👤 Criando usuário admin...");
+    try {
+      await createAdminUser();
+      console.log("✅ Usuário admin processado");
+    } catch (adminError) {
+      console.error(
+        "⚠️ Erro ao criar admin (não crítico):",
+        adminError.message
+      );
+    }
+
+    return server;
   } catch (error) {
     console.error("❌ Erro na inicialização:", error);
     process.exit(1);
@@ -42,5 +62,3 @@ startServer().catch((error) => {
   console.error("❌ Erro ao inicializar servidor:", error);
   process.exit(1);
 });
-
-app.use("/", router);
