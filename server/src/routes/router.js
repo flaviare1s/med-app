@@ -13,8 +13,8 @@ import jwt from "jsonwebtoken";
 let router = express.Router();
 
 router.get("/", function (req, res) {
-  console.log("hi!");
-  res.status(200).json({ message: "hi!" });
+  console.log("Welcome to MedApp!");
+  res.status(200).json({ message: "Welcome to MedApp!" });
 });
 
 // Mapeamento do login
