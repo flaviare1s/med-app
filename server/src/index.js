@@ -7,6 +7,7 @@ import createAdminUser from "./seeds/createAdminUser.js";
 
 const app = express();
 const { json, urlencoded } = pkg;
+const PORT = process.env.PORT || 3001;
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
@@ -17,8 +18,8 @@ const startServer = async () => {
   // Criar usuário admin na inicialização (se não existir)
   await createAdminUser();
 
-  app.listen(3001, () => {
-    console.log("🚀 Server is running on port 3001");
+  app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
     console.log("📋 Admin credentials:");
     console.log("   👤 Login: admin");
     console.log("   🔑 Password: admin");
