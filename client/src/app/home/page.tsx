@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [showMotivationalPhrase, setShowMotivationalPhrase] = useState(false);
@@ -55,39 +56,59 @@ export default function Home() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-          <div className="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="text-4xl mb-4">👨‍⚕️</div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <Link
+            href="/doctor/list"
+            className="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group"
+          >
+            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              👨‍⚕️
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-teal-600 transition-colors">
               Médicos
             </h3>
             <p className="text-sm text-gray-600">
               Gerencie profissionais de saúde
             </p>
-          </div>
+          </Link>
 
-          <div className="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="text-4xl mb-4">👥</div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <Link
+            href="/patient/list"
+            className="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group"
+          >
+            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              👥
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-teal-600 transition-colors">
               Pacientes
             </h3>
             <p className="text-sm text-gray-600">Cadastro e acompanhamento</p>
-          </div>
+          </Link>
 
-          <div className="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="text-4xl mb-4">📅</div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <Link
+            href="/appointment/list"
+            className="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group"
+          >
+            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              📅
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-teal-600 transition-colors">
               Consultas
             </h3>
             <p className="text-sm text-gray-600">Agendamento inteligente</p>
-          </div>
+          </Link>
 
-          <div className="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="text-4xl mb-4">💊</div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <Link
+            href="/prescription/list"
+            className="bg-white/80 backdrop-blur-sm shadow-lg rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group"
+          >
+            <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              💊
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-teal-600 transition-colors">
               Prescrições
             </h3>
             <p className="text-sm text-gray-600">Controle de medicamentos</p>
-          </div>
+          </Link>
         </div>
 
         <div className="mt-12">

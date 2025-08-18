@@ -26,10 +26,11 @@ interface Patient {
 export default function AppointmentEdit({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
-  const id = params.id;
+  const resolvedParams = React.use(params);
+  const id = resolvedParams.id;
 
   const [date, setDate] = useState<string>("");
   const [doctorId, setDoctorId] = useState<string>("");

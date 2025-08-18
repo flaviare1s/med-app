@@ -44,7 +44,6 @@ export default function AppointmentList() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Appointments data:", data);
         setAppointments(data);
       })
       .catch(() => setError("Falha ao carregar consultas."));
@@ -60,7 +59,6 @@ export default function AppointmentList() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Doctors data:", data);
         setDoctors(data);
       })
       .catch(() => setError("Falha ao carregar médicos."));
@@ -76,7 +74,6 @@ export default function AppointmentList() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Patients data:", data);
         setPatients(data);
       })
       .catch(() => setError("Falha ao carregar pacientes."));
@@ -106,9 +103,6 @@ export default function AppointmentList() {
   const findDoctorName = (
     doctorData: string | { _id: string; name: string; medicalSpecialty: string }
   ): string => {
-    console.log("Looking for doctor with data:", doctorData);
-    console.log("Available doctors:", doctors);
-
     // Se já é um objeto com os dados do médico
     if (typeof doctorData === "object" && doctorData.name) {
       return doctorData.name;
@@ -119,19 +113,14 @@ export default function AppointmentList() {
       typeof doctorData === "string" ? doctorData : doctorData._id;
     const doctor = doctors.find((doctor) => doctor._id === doctorId);
     if (doctor) {
-      console.log("Doctor found:", doctor);
       return doctor.name;
     }
-    console.log("Doctor not found, returning N/A");
     return "N/A";
   };
 
   const findPatientName = (
     patientData: string | { _id: string; name: string }
   ): string => {
-    console.log("Looking for patient with data:", patientData);
-    console.log("Available patients:", patients);
-
     // Se já é um objeto com os dados do paciente
     if (typeof patientData === "object" && patientData.name) {
       return patientData.name;
@@ -142,7 +131,6 @@ export default function AppointmentList() {
       typeof patientData === "string" ? patientData : patientData._id;
     const patient = patients.find((patient) => patient._id === patientId);
     const result = patient ? patient.name : "N/A";
-    console.log("Patient found:", patient, "Result:", result);
     return result;
   };
 
