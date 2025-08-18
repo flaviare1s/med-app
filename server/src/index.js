@@ -15,15 +15,26 @@ app.use(cors());
 
 // Função para inicializar o servidor
 const startServer = async () => {
-  // Criar usuário admin na inicialização (se não existir)
-  await createAdminUser();
+  try {
+    console.log("🔄 Iniciando servidor...");
+    console.log("📊 Porta configurada:", PORT);
+    console.log("🔗 MongoDB URI:", process.env.MONGODB_URI ? "✅ Configurado" : "❌ Não configurado");
+    
+    // Criar usuário admin na inicialização (se não existir)
+    console.log("👤 Criando usuário admin...");
+    await createAdminUser();
+    console.log("✅ Usuário admin processado");
 
-  app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-    console.log("📋 Admin credentials:");
-    console.log("   👤 Login: admin");
-    console.log("   🔑 Password: admin");
-  });
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server is running on port ${PORT}`);
+      console.log("📋 Admin credentials:");
+      console.log("   👤 Login: admin");
+      console.log("   🔑 Password: admin");
+    });
+  } catch (error) {
+    console.error("❌ Erro na inicialização:", error);
+    process.exit(1);
+  }
 };
 
 // Inicializar servidor
