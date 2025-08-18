@@ -5,10 +5,13 @@ let router = express.Router();
 
 router.get("/appointments", async (_req, res) => {
   try {
+    console.log("Fetching appointments...");
     const appointments = await AppointmentService.getAllAppointments();
+    console.log("Found appointments:", appointments.length);
+    console.log("First appointment:", appointments[0]);
     res.status(200).json(appointments);
   } catch (error) {
-    console.log(error);
+    console.log("Error fetching appointments:", error);
     res.status(500).json({ message: error.message });
   }
 });
@@ -67,8 +70,8 @@ router.delete("/appointments/:id", async (req, res) => {
 });
 
 router.patch("/reschedule/:id", async (req, res) => {
-  const {id} = req.params;
-  const {date} = req.body;
+  const { id } = req.params;
+  const { date } = req.body;
   try {
     let appointment = await AppointmentService.getAppointment(id);
     appointment.date = date;
@@ -78,6 +81,6 @@ router.patch("/reschedule/:id", async (req, res) => {
     console.log(error);
     res.status(500).json({ message: error.message });
   }
-})
+});
 
 export default router;

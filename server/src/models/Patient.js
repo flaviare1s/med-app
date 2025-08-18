@@ -50,6 +50,6 @@ const patientSchema = new Schema({
   },
 });
 
-const Patient = mongoose.model("patient", patientSchema);
+const Patient = mongoose.model("Patient", patientSchema);
 
 export default Patient;
