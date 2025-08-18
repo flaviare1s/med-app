@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaUpload, FaDownload, FaFilePdf, FaFileAlt } from "react-icons/fa";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 interface Prescription {
   _id: string;
   date: string;
@@ -24,7 +26,7 @@ export default function PrescriptionManagement() {
 
   const fetchPrescriptions = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:3001/prescriptions", {
+      const response = await fetch(`${API_URL}/prescriptions`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -51,16 +53,13 @@ export default function PrescriptionManagement() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch(
-        `http://127.0.0.1:3001/uploadPrescription/${id}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: sessionStorage.getItem("token") || "",
-          },
-          body: formData,
-        }
-      );
+      const response = await fetch(`${API_URL}/uploadPrescription/${id}`, {
+        method: "POST",
+        headers: {
+          Authorization: sessionStorage.getItem("token") || "",
+        },
+        body: formData,
+      });
 
       if (response.ok) {
         fetchPrescriptions();
@@ -77,15 +76,12 @@ export default function PrescriptionManagement() {
 
   const downloadFile = async (id: string) => {
     try {
-      const response = await fetch(
-        `http://127.0.0.1:3001/readPrescription/${id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: sessionStorage.getItem("token") || "",
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/readPrescription/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: sessionStorage.getItem("token") || "",
+        },
+      });
 
       if (response.ok) {
         const blob = await response.blob();
@@ -108,15 +104,12 @@ export default function PrescriptionManagement() {
     setError(null);
 
     try {
-      const response = await fetch(
-        `http://127.0.0.1:3001/generatePrescription/${id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: sessionStorage.getItem("token") || "",
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/generatePrescription/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: sessionStorage.getItem("token") || "",
+        },
+      });
 
       if (response.ok) {
         const content = await response.json();

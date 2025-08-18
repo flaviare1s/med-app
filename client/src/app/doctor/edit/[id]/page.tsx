@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 export default function DoctorEdit(params: any) {
   const router = useRouter();
   const id = params.params.id;
@@ -28,7 +30,7 @@ export default function DoctorEdit(params: any) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:3001/doctors/${id}`, {
+    fetch(`${API_URL}/doctors/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +57,7 @@ export default function DoctorEdit(params: any) {
     };
 
     try {
-      const response = await fetch(`http://127.0.0.1:3001/doctors/${id}`, {
+      const response = await fetch(`${API_URL}/doctors/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +111,9 @@ export default function DoctorEdit(params: any) {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Nome de Usuário</label>
+            <label className="text-sm font-semibold text-gray-700">
+              Nome de Usuário
+            </label>
             <input
               type="text"
               placeholder="Digite o login"

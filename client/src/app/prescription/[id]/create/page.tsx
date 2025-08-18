@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 export default function PrescriptionCreate({
   params,
 }: {
@@ -35,7 +37,7 @@ export default function PrescriptionCreate({
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:3001/prescriptions", {
+      const response = await fetch(`${API_URL}/prescriptions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

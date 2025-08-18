@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 interface Doctor {
   _id: string;
   name: string;
@@ -25,7 +27,7 @@ export default function AppointmentCreate() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3001/doctors", {
+    fetch(`${API_URL}/doctors`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +40,7 @@ export default function AppointmentCreate() {
   }, []);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3001/patients", {
+    fetch(`${API_URL}/patients`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +68,7 @@ export default function AppointmentCreate() {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:3001/appointments", {
+      const response = await fetch(`${API_URL}/appointments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +80,7 @@ export default function AppointmentCreate() {
       const content = await response.json();
 
       if (content.date) {
-        router.push("/home");
+        router.push("/appointment/list");
       } else if (content.error) {
         setError(content.error);
       } else {

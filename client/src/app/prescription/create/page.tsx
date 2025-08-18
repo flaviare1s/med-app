@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaChevronDown, FaCheck } from "react-icons/fa";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 interface Appointment {
   _id: string;
   date: string;
@@ -44,7 +46,7 @@ export default function PrescriptionCreate() {
       const token = sessionStorage.getItem("token");
       console.log("Token available:", token ? "Yes" : "No");
 
-      const response = await fetch("http://127.0.0.1:3001/appointments", {
+      const response = await fetch(`${API_URL}/appointments`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -100,7 +102,7 @@ export default function PrescriptionCreate() {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:3001/prescriptions", {
+      const response = await fetch(`${API_URL}/prescriptions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

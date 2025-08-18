@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 interface Patient {
   _id: string;
   name: string;
@@ -30,7 +32,7 @@ export default function PatientEdit({ params }: { params: { id: string } }) {
 
   // Fetch patient data on mount
   useEffect(() => {
-    fetch(`http://127.0.0.1:3001/patients/${id}`, {
+    fetch(`${API_URL}/patients/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +64,7 @@ export default function PatientEdit({ params }: { params: { id: string } }) {
     };
 
     try {
-      const response = await fetch(`http://127.0.0.1:3001/patients/${id}`, {
+      const response = await fetch(`${API_URL}/patients/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

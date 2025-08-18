@@ -20,19 +20,24 @@ export default function PatientCreate() {
       const formData = { name, birthDate, email, phone };
 
       try {
-        const response = await fetch("http://127.0.0.1:3001/patients", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: sessionStorage.getItem("token") || "",
-          },
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch(
+          `${
+            process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001"
+          }/patients`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: sessionStorage.getItem("token") || "",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
 
         const content = await response.json();
 
         if (content.name) {
-          router.push("/home");
+          router.push("/patient/list");
         } else if (content.error) {
           setError(content.error);
         } else {

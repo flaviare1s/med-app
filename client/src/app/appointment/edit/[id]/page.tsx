@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 interface Appointment {
   _id: string;
   date: string;
@@ -44,7 +46,7 @@ export default function AppointmentEdit({
 
   // Fetch appointment data on mount
   useEffect(() => {
-    fetch(`http://127.0.0.1:3001/appointments/${id}`, {
+    fetch(`${API_URL}/appointments/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +68,7 @@ export default function AppointmentEdit({
   }, [id]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3001/doctors", {
+    fetch(`${API_URL}/doctors`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +81,7 @@ export default function AppointmentEdit({
   }, []);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3001/patients", {
+    fetch(`${API_URL}/patients`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -102,7 +104,7 @@ export default function AppointmentEdit({
     };
 
     try {
-      const response = await fetch(`http://127.0.0.1:3001/appointments/${id}`, {
+      const response = await fetch(`${API_URL}/appointments/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

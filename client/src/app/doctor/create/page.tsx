@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 export default function DoctorCreate() {
   const router = useRouter();
 
@@ -34,7 +36,7 @@ export default function DoctorCreate() {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:3001/doctors", {
+      const response = await fetch(`${API_URL}/doctors`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +48,7 @@ export default function DoctorCreate() {
       const content = await response.json();
 
       if (content.login) {
-        router.push("/home");
+        router.push("/doctor/list");
       } else if (content.errors) {
         setFieldErrors(content.errors);
       } else if (content.error) {
@@ -98,7 +100,9 @@ export default function DoctorCreate() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Nome de Usuário</label>
+            <label className="text-sm font-semibold text-gray-700">
+              Nome de Usuário
+            </label>
             <input
               type="text"
               placeholder="Digite o nome de usuário"

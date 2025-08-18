@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaTrash, FaEdit } from "react-icons/fa";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 interface Doctor {
   _id: string;
   name: string;
@@ -19,7 +21,7 @@ export default function DoctorList() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3001/doctors", {
+    fetch(`${API_URL}/doctors`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +35,7 @@ export default function DoctorList() {
 
   const deleteDoctor = async (id: string) => {
     try {
-      const response = await fetch(`http://127.0.0.1:3001/doctors/${id}`, {
+      const response = await fetch(`${API_URL}/doctors/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

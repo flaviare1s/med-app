@@ -8,6 +8,8 @@ import {
   FaUpload,
 } from "react-icons/fa";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
+
 interface Appointment {
   _id: string;
   date: string;
@@ -33,7 +35,7 @@ export default function AppointmentList() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3001/appointments", {
+    fetch(`${API_URL}/appointments`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +48,7 @@ export default function AppointmentList() {
   }, []);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3001/doctors", {
+    fetch(`${API_URL}/doctors`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +61,7 @@ export default function AppointmentList() {
   }, []);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3001/patients", {
+    fetch(`${API_URL}/patients`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +75,7 @@ export default function AppointmentList() {
 
   const deleteAppointment = async (id: string) => {
     try {
-      const response = await fetch(`http://127.0.0.1:3001/appointments/${id}`, {
+      const response = await fetch(`${API_URL}/appointments/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

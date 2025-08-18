@@ -16,13 +16,16 @@ export default function PatientList() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3001/patients", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("token") || "",
-      },
-    })
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001"}/patients`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: sessionStorage.getItem("token") || "",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => setPatients(data))
       .catch(() => setError("Falha ao carregar pacientes."));
@@ -31,13 +34,18 @@ export default function PatientList() {
   // Delete patient
   const deletePatient = async (id: string) => {
     try {
-      const response = await fetch(`http://127.0.0.1:3001/patients/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: sessionStorage.getItem("token") || "",
-        },
-      });
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001"
+        }/patients/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: sessionStorage.getItem("token") || "",
+          },
+        }
+      );
 
       const content = await response.json();
       if (content._id) {
