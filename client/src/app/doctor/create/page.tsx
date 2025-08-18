@@ -54,7 +54,8 @@ export default function DoctorCreate() {
       } else {
         setGeneralError("Falha ao criar médico.");
       }
-    } catch (err) {
+    } catch (error) {
+      console.error("Erro ao criar médico:", error);
       setGeneralError("Erro no servidor. Tente novamente.");
     }
   };

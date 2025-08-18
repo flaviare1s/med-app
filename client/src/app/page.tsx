@@ -48,7 +48,8 @@ export default function Home() {
       } else {
         setErrorServer("Nome de usuário ou senha inválidos");
       }
-    } catch (err) {
+    } catch (error) {
+      console.error("Erro de conexão:", error);
       setErrorServer("Erro ao conectar com o servidor.");
     }
   };
