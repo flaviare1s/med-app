@@ -16,6 +16,7 @@ app.use(
   cors({
     origin: (origin, callback) => {
       const allowedOrigins = [
+        "http://localhost:3000",
         process.env.FRONTEND_URL,
       ].filter(Boolean);
 
