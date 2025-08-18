@@ -4,7 +4,7 @@ const getAllPatients = async () => {
   try {
     return await Patient.find();
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -12,7 +12,7 @@ const getPatient = async (id) => {
   try {
     return await Patient.findById(id);
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -21,7 +21,8 @@ const savePatient = async ({ name, birthDate, email, phone }) => {
     const patient = new Patient({ name, birthDate, email, phone });
     return await patient.save();
   } catch (error) {
-    throw new Error(error);
+    // Re-throw the original error to preserve validation messages
+    throw error;
   }
 };
 
@@ -30,10 +31,11 @@ const updatePatient = async (id, { name, birthDate, email, phone }) => {
     return await Patient.findByIdAndUpdate(
       id,
       { name, birthDate, email, phone },
-      { new: true }
+      { new: true, runValidators: true }
     );
   } catch (error) {
-    throw new Error(error);
+    // Re-throw the original error to preserve validation messages
+    throw error;
   }
 };
 
@@ -41,7 +43,7 @@ const deletePatient = async (id) => {
   try {
     return await Patient.findByIdAndDelete(id);
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
 

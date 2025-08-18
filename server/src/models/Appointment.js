@@ -7,12 +7,18 @@ const Schema = mongoose.Schema;
 const appointmentSchema = new Schema({
   date: {
     type: Date,
-    required: [true, "Appointment date is required"],
+    required: [true, "Data da consulta é obrigatória."],
+    validate: {
+      validator: function (v) {
+        return v && v >= new Date();
+      },
+      message: "Data da consulta deve ser igual ou posterior à data atual.",
+    },
   },
   doctorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Doctor",
-    required: [true, "Doctor ID is required"],
+    required: [true, "ID do médico é obrigatório."],
     validate: {
       validator: async function (v) {
         if (!mongoose.Types.ObjectId.isValid(v)) {
@@ -20,13 +26,13 @@ const appointmentSchema = new Schema({
         }
         return await Doctor.exists({ _id: v });
       },
-      message: (props) => `DoctorID ${props.value} not found.`,
+      message: "Médico não encontrado. Verifique o ID informado.",
     },
   },
   patientId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Patient",
-    required: [true, "Patient ID is required"],
+    required: [true, "ID do paciente é obrigatório."],
     validate: {
       validator: async function (v) {
         if (!mongoose.Types.ObjectId.isValid(v)) {
@@ -34,7 +40,7 @@ const appointmentSchema = new Schema({
         }
         return await Patient.exists({ _id: v });
       },
-      message: (props) => `PacientID ${props.value} not found.`,
+      message: "Paciente não encontrado. Verifique o ID informado.",
     },
   },
   createdAt: {
