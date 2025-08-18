@@ -11,7 +11,23 @@ const PORT = process.env.PORT || 3001;
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
-app.use(cors());
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        process.env.FRONTEND_URL,
+      ].filter(Boolean);
+
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 // Definir rotas ANTES do listen
 app.get("/health", (req, res) => {
@@ -20,7 +36,6 @@ app.get("/health", (req, res) => {
 
 app.use("/", router);
 
-// Função para inicializar o servidor
 const startServer = async () => {
   try {
     console.log("🔄 Iniciando servidor...");
@@ -30,7 +45,6 @@ const startServer = async () => {
       process.env.MONGODB_URI ? "✅ Configurado" : "❌ Não configurado"
     );
 
-    // Inicializar servidor PRIMEIRO
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server is running on port ${PORT}`);
       console.log("📋 Admin credentials:");
@@ -38,7 +52,6 @@ const startServer = async () => {
       console.log("   🔑 Password: admin");
     });
 
-    // Criar usuário admin DEPOIS do servidor estar rodando
     console.log("👤 Criando usuário admin...");
     try {
       await createAdminUser();
@@ -57,7 +70,6 @@ const startServer = async () => {
   }
 };
 
-// Inicializar servidor
 startServer().catch((error) => {
   console.error("❌ Erro ao inicializar servidor:", error);
   process.exit(1);
