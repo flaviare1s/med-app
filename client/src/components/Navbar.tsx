@@ -208,6 +208,12 @@ const Navbar = () => {
                     >
                       Criar Prescrição
                     </Link>
+                    <Link
+                      href="/prescription/list"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600"
+                    >
+                      Listar Prescrições
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -342,6 +348,13 @@ const Navbar = () => {
                 className="block text-gray-300 hover:text-white"
               >
                 Criar Prescrição
+              </Link>
+              <Link
+                href="/prescription/list"
+                onClick={closeMenu}
+                className="block text-gray-300 hover:text-white"
+              >
+                Listar Prescrições
               </Link>
             </div>
           </div>
