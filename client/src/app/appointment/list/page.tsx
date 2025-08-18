@@ -13,8 +13,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
 interface Appointment {
   _id: string;
   date: string;
-  doctorId: string | { _id: string; name: string; medicalSpecialty: string };
-  patientId: string | { _id: string; name: string };
+  doctorId: string | { _id: string; name: string; medicalSpecialty: string } | null;
+  patientId: string | { _id: string; name: string } | null;
 }
 
 interface Doctor {
@@ -101,8 +101,13 @@ export default function AppointmentList() {
   };
 
   const findDoctorName = (
-    doctorData: string | { _id: string; name: string; medicalSpecialty: string }
+    doctorData: string | { _id: string; name: string; medicalSpecialty: string } | null
   ): string => {
+    // Se é null ou undefined
+    if (!doctorData) {
+      return "N/A";
+    }
+
     // Se já é um objeto com os dados do médico
     if (typeof doctorData === "object" && doctorData.name) {
       return doctorData.name;
@@ -119,8 +124,13 @@ export default function AppointmentList() {
   };
 
   const findPatientName = (
-    patientData: string | { _id: string; name: string }
+    patientData: string | { _id: string; name: string } | null
   ): string => {
+    // Se é null ou undefined
+    if (!patientData) {
+      return "N/A";
+    }
+
     // Se já é um objeto com os dados do paciente
     if (typeof patientData === "object" && patientData.name) {
       return patientData.name;
