@@ -47,7 +47,7 @@ export default function PatientEdit({ params }: { params: { id: string } }) {
         setEmail(data.email);
         setPhone(data.phone);
       })
-      .catch(() => setError("Failed to load patient data."));
+      .catch(() => setError("Falha ao carregar dados do paciente."));
   }, [id]);
 
   const handleEdit = async (e: React.FormEvent) => {
@@ -76,95 +76,92 @@ export default function PatientEdit({ params }: { params: { id: string } }) {
       if (content._id) {
         router.push("/patient/list");
       } else {
-        setError(content.error || "Failed to update patient.");
+        setError(content.error || "Falha ao atualizar paciente.");
       }
     } catch {
-      setError("Server error. Could not update patient.");
+      setError("Erro do servidor. Não foi possível atualizar paciente.");
     }
   };
 
   return (
-    <div className="p-6 sm:p-10 min-h-screen bg-gray-50">
-      <Link
-        href="/patient/list"
-        className="mb-4 inline-block font-medium text-blue-600 hover:text-blue-800 transition"
-      >
-        &larr; Back to Patient List
-      </Link>
-
-      <form
-        className="w-full max-w-lg bg-white shadow-md rounded-lg p-6"
-        onSubmit={handleEdit}
-      >
-        <h2 className="text-2xl font-bold text-yellow-500 mb-4 underline">
-          Edit Patient
-        </h2>
-
-        <div className="mb-4">
-          <label className="block font-semibold mb-1">Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block font-semibold mb-1">Birth Date</label>
-          <input
-            type="date"
-            value={birthDate}
-            onChange={(e) => setBirthDate(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block font-semibold mb-1">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block font-semibold mb-1">Phone</label>
-          <input
-            type="text"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            required
-          />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <button
-            type="submit"
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition"
-          >
-            Save
-          </button>
-          <Link
-            href="/patient/list"
-            className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded transition"
-          >
-            Cancel
-          </Link>
-        </div>
-
-        {error && (
-          <div className="mt-4 p-2 text-red-700 bg-red-100 border border-red-300 rounded">
-            {error}
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-6 sm:p-10">
+      <div className="w-full max-w-lg bg-white shadow-lg rounded-xl p-8 flex flex-col gap-6">
+        <Link
+          href="/patient/list"
+          className="mb-4 inline-block font-medium text-teal-600 hover:text-teal-800 transition"
+        >
+          &larr; Voltar à Lista de Pacientes
+        </Link>
+        <form
+          className="w-full max-w-lg bg-white rounded-lg p-6"
+          onSubmit={handleEdit}
+        >
+          <h2 className="text-2xl font-bold text-teal-500 mb-4">
+            Atualizar Paciente
+          </h2>
+          <div className="mb-4">
+            <label className="block font-semibold mb-1">Nome</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              required
+            />
           </div>
-        )}
-      </form>
+          <div className="mb-4">
+            <label className="block font-semibold mb-1">
+              Data de Nascimento
+            </label>
+            <input
+              type="date"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block font-semibold mb-1">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block font-semibold mb-1">Telefone</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              required
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            <button
+              type="submit"
+              className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded transition"
+            >
+              Salvar
+            </button>
+            <Link
+              href="/patient/list"
+              className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded transition"
+            >
+              Cancelar
+            </Link>
+          </div>
+          {error && (
+            <div className="mt-4 p-2 text-red-700 bg-red-100 border border-red-300 rounded">
+              {error}
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 }

@@ -37,7 +37,7 @@ export default function DoctorEdit(params: any) {
     })
       .then((response) => response.json())
       .then((data) => setDoctor(data))
-      .catch(() => setError("Failed to load doctor data."));
+      .catch(() => setError("Falha ao carregar dados do médico."));
   }, [id]);
 
   const edit = async (e: React.FormEvent) => {
@@ -72,7 +72,7 @@ export default function DoctorEdit(params: any) {
         setError(content.error);
       }
     } catch {
-      setError("Server error. Please try again.");
+      setError("Erro do servidor. Tente novamente.");
     }
   };
 
@@ -83,11 +83,11 @@ export default function DoctorEdit(params: any) {
           href="/doctor/list"
           className="text-teal-600 hover:text-teal-800 font-semibold"
         >
-          &larr; Back to Doctor List
+          &larr; Voltar à Lista de Médicos
         </Link>
 
         <h1 className="text-3xl font-bold text-teal-600 text-center">
-          Edit Doctor
+          Atualizar Médico
         </h1>
 
         {error && (
@@ -98,10 +98,10 @@ export default function DoctorEdit(params: any) {
 
         <form className="flex flex-col gap-4" onSubmit={edit}>
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Name</label>
+            <label className="text-sm font-semibold text-gray-700">Nome</label>
             <input
               type="text"
-              placeholder="Enter doctor's name"
+              placeholder="Digite o nome do médico"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               defaultValue={doctor.name}
               onChange={(e) => setName(e.target.value)}
@@ -109,10 +109,10 @@ export default function DoctorEdit(params: any) {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Login</label>
+            <label className="text-sm font-semibold text-gray-700">Nome de Usuário</label>
             <input
               type="text"
-              placeholder="Enter login"
+              placeholder="Digite o login"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               defaultValue={doctor.login}
               onChange={(e) => setLogin(e.target.value)}
@@ -120,12 +120,10 @@ export default function DoctorEdit(params: any) {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">
-              Password
-            </label>
+            <label className="text-sm font-semibold text-gray-700">Senha</label>
             <input
               type="password"
-              placeholder="Enter password"
+              placeholder="Digite a senha"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -133,11 +131,11 @@ export default function DoctorEdit(params: any) {
 
           <div className="flex flex-col gap-1">
             <label className="text-sm font-semibold text-gray-700">
-              Medical Specialty
+              Especialidade Médica
             </label>
             <input
               type="text"
-              placeholder="Enter specialty"
+              placeholder="Digite a especialidade"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               defaultValue={doctor.medicalSpecialty}
               onChange={(e) => setMedicalSpecialty(e.target.value)}
@@ -146,11 +144,11 @@ export default function DoctorEdit(params: any) {
 
           <div className="flex flex-col gap-1">
             <label className="text-sm font-semibold text-gray-700">
-              Medical Registration
+              Registro Médico
             </label>
             <input
               type="text"
-              placeholder="Enter registration number"
+              placeholder="Digite o número do registro"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               defaultValue={doctor.medicalRegistration}
               onChange={(e) => setMedicalRegistration(e.target.value)}
@@ -161,7 +159,7 @@ export default function DoctorEdit(params: any) {
             <label className="text-sm font-semibold text-gray-700">Email</label>
             <input
               type="email"
-              placeholder="Enter email"
+              placeholder="Digite o email"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               defaultValue={doctor.email}
               onChange={(e) => setEmail(e.target.value)}
@@ -169,7 +167,9 @@ export default function DoctorEdit(params: any) {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Phone</label>
+            <label className="text-sm font-semibold text-gray-700">
+              Telefone
+            </label>
             <input
               type="tel"
               placeholder="99 91234-4567"
@@ -183,7 +183,7 @@ export default function DoctorEdit(params: any) {
             type="submit"
             className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 rounded-lg transition"
           >
-            Update Doctor
+            Atualizar
           </button>
         </form>
       </div>

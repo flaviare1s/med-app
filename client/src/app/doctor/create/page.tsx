@@ -52,10 +52,10 @@ export default function DoctorCreate() {
       } else if (content.error) {
         setGeneralError(content.error);
       } else {
-        setGeneralError("Failed to create doctor.");
+        setGeneralError("Falha ao criar médico.");
       }
     } catch (err) {
-      setGeneralError("Server error. Please try again.");
+      setGeneralError("Erro no servidor. Tente novamente.");
     }
   };
 
@@ -71,11 +71,11 @@ export default function DoctorCreate() {
           href="/home"
           className="text-teal-600 hover:text-teal-800 font-semibold"
         >
-          &larr; Back to Dashboard
+          &larr; Voltar ao Dashboard
         </Link>
 
         <h1 className="text-3xl font-bold text-teal-600 text-center">
-          Create Doctor
+          Cadastrar Médico
         </h1>
 
         {generalError && (
@@ -86,10 +86,10 @@ export default function DoctorCreate() {
 
         <form className="flex flex-col gap-4" onSubmit={addDoctor} noValidate>
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Name</label>
+            <label className="text-sm font-semibold text-gray-700">Nome</label>
             <input
               type="text"
-              placeholder="Enter doctor's name"
+              placeholder="Digite o nome do médico"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onChange={(e) => setName(e.target.value)}
             />
@@ -97,10 +97,10 @@ export default function DoctorCreate() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Login</label>
+            <label className="text-sm font-semibold text-gray-700">Nome de Usuário</label>
             <input
               type="text"
-              placeholder="Enter login"
+              placeholder="Digite o nome de usuário"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onChange={(e) => setLogin(e.target.value)}
             />
@@ -108,12 +108,10 @@ export default function DoctorCreate() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">
-              Password
-            </label>
+            <label className="text-sm font-semibold text-gray-700">Senha</label>
             <input
               type="password"
-              placeholder="Enter password"
+              placeholder="Digite a senha"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -122,11 +120,11 @@ export default function DoctorCreate() {
 
           <div className="flex flex-col gap-1">
             <label className="text-sm font-semibold text-gray-700">
-              Medical Specialty
+              Especialidade Médica
             </label>
             <input
               type="text"
-              placeholder="Enter specialty"
+              placeholder="Digite a especialidade"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onChange={(e) => setMedicalSpecialty(e.target.value)}
             />
@@ -135,11 +133,11 @@ export default function DoctorCreate() {
 
           <div className="flex flex-col gap-1">
             <label className="text-sm font-semibold text-gray-700">
-              Medical Registration
+              Registro Médico
             </label>
             <input
               type="text"
-              placeholder="Enter registration number"
+              placeholder="Digite o número do registro"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onChange={(e) => setMedicalRegistration(e.target.value)}
             />
@@ -150,7 +148,7 @@ export default function DoctorCreate() {
             <label className="text-sm font-semibold text-gray-700">Email</label>
             <input
               type="email"
-              placeholder="Enter email"
+              placeholder="Digite o email"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -158,7 +156,9 @@ export default function DoctorCreate() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Phone</label>
+            <label className="text-sm font-semibold text-gray-700">
+              Telefone
+            </label>
             <input
               type="tel"
               placeholder="99 91234-4567"
@@ -172,7 +172,7 @@ export default function DoctorCreate() {
             type="submit"
             className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 rounded-lg transition"
           >
-            Create Doctor
+            Cadastrar
           </button>
         </form>
       </div>

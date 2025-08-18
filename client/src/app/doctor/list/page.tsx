@@ -28,7 +28,7 @@ export default function DoctorList() {
     })
       .then((res) => res.json())
       .then((data) => setDoctors(data))
-      .catch(() => setError("Failed to load doctors."));
+      .catch(() => setError("Falha ao carregar médicos."));
   }, []);
 
   const deleteDoctor = async (id: string) => {
@@ -48,7 +48,7 @@ export default function DoctorList() {
         setError(content.error);
       }
     } catch {
-      setError("Server error. Could not delete doctor.");
+      setError("Erro no servidor. Não foi possível excluir o médico.");
     }
   };
 
@@ -56,9 +56,9 @@ export default function DoctorList() {
     <div className="min-h-screen bg-gray-50 p-6 sm:p-10">
       <Link
         href="/home"
-        className="mb-4 inline-block font-medium text-blue-600 hover:text-blue-800 transition"
+        className="mb-4 inline-block font-medium text-teal-600 hover:text-teal-800 transition"
       >
-        &larr; Back to Dashboard
+        &larr; Voltar ao Dashboard
       </Link>
 
       {error && (
@@ -71,19 +71,19 @@ export default function DoctorList() {
         <table className="min-w-full table-auto border-collapse">
           <thead className="bg-teal-600 text-white">
             <tr>
-              <th className="p-3 border border-gray-200 text-left">Name</th>
+              <th className="p-3 border border-gray-200 text-left">Nome</th>
               <th className="p-3 border border-gray-200 text-center">Login</th>
               <th className="p-3 border border-gray-200 text-center">
-                Specialty
+                Especialidade
               </th>
               <th className="p-3 border border-gray-200 text-center">
-                Medical Registration
+                Registro Médico
               </th>
               <th className="p-3 border border-gray-200 text-center">Email</th>
-              <th className="p-3 border border-gray-200 text-center">Phone</th>
               <th className="p-3 border border-gray-200 text-center">
-                Actions
+                Telefone
               </th>
+              <th className="p-3 border border-gray-200 text-center">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -131,7 +131,7 @@ export default function DoctorList() {
                   colSpan={7}
                   className="p-4 text-center text-gray-500 font-medium"
                 >
-                  No doctors found.
+                  Nenhum médico encontrado.
                 </td>
               </tr>
             )}

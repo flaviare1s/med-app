@@ -36,13 +36,13 @@ export default function PatientCreate() {
         } else if (content.error) {
           setError(content.error);
         } else {
-          setError("Failed to create patient.");
+          setError("Falha ao criar paciente.");
         }
       } catch {
-        setError("Server error. Please try again.");
+        setError("Erro do servidor. Tente novamente.");
       }
     } else {
-      setError("Please fill in all fields.");
+      setError("Por favor, preencha todos os campos.");
     }
   };
 
@@ -53,11 +53,11 @@ export default function PatientCreate() {
           href="/home"
           className="text-teal-600 hover:text-teal-800 font-semibold"
         >
-          &larr; Back to Dashboard
+          &larr; Voltar ao Dashboard
         </Link>
 
         <h1 className="text-3xl font-bold text-teal-600 text-center">
-          Create Patient
+          Cadastrar Paciente
         </h1>
 
         {error && (
@@ -68,10 +68,10 @@ export default function PatientCreate() {
 
         <form className="flex flex-col gap-4" onSubmit={addPatient} noValidate>
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Name</label>
+            <label className="text-sm font-semibold text-gray-700">Nome</label>
             <input
               type="text"
-              placeholder="Enter patient name"
+              placeholder="Digite o nome do paciente"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onChange={(e) => setName(e.target.value)}
             />
@@ -79,7 +79,7 @@ export default function PatientCreate() {
 
           <div className="flex flex-col gap-1">
             <label className="text-sm font-semibold text-gray-700">
-              Birth Date
+              Data de Nascimento
             </label>
             <input
               type="date"
@@ -92,14 +92,16 @@ export default function PatientCreate() {
             <label className="text-sm font-semibold text-gray-700">Email</label>
             <input
               type="email"
-              placeholder="Enter email"
+              placeholder="Digite o email"
               className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-semibold text-gray-700">Phone</label>
+            <label className="text-sm font-semibold text-gray-700">
+              Telefone
+            </label>
             <input
               type="tel"
               placeholder="99 91234-5678"
@@ -112,7 +114,7 @@ export default function PatientCreate() {
             type="submit"
             className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 rounded-lg transition"
           >
-            Create Patient
+            Cadastrar
           </button>
         </form>
       </div>

@@ -20,12 +20,12 @@ export default function Home() {
     let valid = true;
 
     if (!login) {
-      setErrorLogin("Please enter your username");
+      setErrorLogin("Por favor, digite seu nome de usuário");
       valid = false;
     }
 
     if (!password) {
-      setErrorPassword("Please enter your password");
+      setErrorPassword("Por favor, digite sua senha");
       valid = false;
     }
 
@@ -46,10 +46,10 @@ export default function Home() {
         sessionStorage.setItem("token", content.token);
         router.push("/home");
       } else {
-        setErrorServer("Invalid username or password");
+        setErrorServer("Nome de usuário ou senha inválidos");
       }
     } catch (err) {
-      setErrorServer("Error connecting to the server.");
+      setErrorServer("Erro ao conectar com o servidor.");
     }
   };
 
@@ -64,13 +64,11 @@ export default function Home() {
         <h2 className="text-3xl font-bold text-teal-600 text-center">Login</h2>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold text-gray-700">
-            Username
-          </label>
+          <label className="text-sm font-semibold text-gray-700">Usuário</label>
           <input
             type="text"
             name="login"
-            placeholder="Enter your username"
+            placeholder="Digite seu nome de usuário"
             autoComplete="off"
             className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:border-blue-400 transition ${
               errorLogin
@@ -85,13 +83,11 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold text-gray-700">
-            Password
-          </label>
+          <label className="text-sm font-semibold text-gray-700">Senha</label>
           <input
             type="password"
             name="password"
-            placeholder="Enter your password"
+            placeholder="Digite sua senha"
             autoComplete="off"
             className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:border-blue-400 transition ${
               errorPassword
@@ -109,7 +105,7 @@ export default function Home() {
           type="submit"
           className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 rounded-lg transition"
         >
-          Sign In
+          Entrar
         </button>
 
         {errorServer && (
@@ -119,8 +115,8 @@ export default function Home() {
         )}
 
         <p className="text-center text-gray-500 text-sm mt-2">
-          Note: To test the app in deployment, use username: <b>teste</b> and
-          password: <b>1234</b>
+          Nota: Para testar o aplicativo, use usuário: <b>teste</b> e senha:{" "}
+          <b>1234</b>
         </p>
       </form>
     </div>
