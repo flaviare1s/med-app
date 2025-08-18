@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -8,10 +8,17 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
 export default function PrescriptionCreate({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
-  const appointmentId = params.id;
+  const [appointmentId, setAppointmentId] = useState<string>("");
+
+  // Resolver params no lado do cliente
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setAppointmentId(resolvedParams.id);
+    });
+  }, [params]);
 
   const [date, setDate] = useState<string>("");
   const [medicine, setMedicine] = useState<string>("");
@@ -22,6 +29,11 @@ export default function PrescriptionCreate({
   const addPrescription = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!appointmentId) {
+      setError("Carregando informações da consulta...");
+      return;
+    }
 
     if (!date || !medicine || !dosage) {
       setError("Por favor, preencha todos os campos obrigatórios.");

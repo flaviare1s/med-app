@@ -13,9 +13,16 @@ interface Patient {
   phone: string;
 }
 
-export default function PatientEdit({ params }: { params: { id: string } }) {
+export default function PatientEdit({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const id = params.id;
+  const [id, setId] = useState<string>("");
+
+  // Resolver params no lado do cliente
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setId(resolvedParams.id);
+    });
+  }, [params]);
 
   const [patient, setPatient] = useState<Patient>({
     _id: "",
@@ -32,6 +39,8 @@ export default function PatientEdit({ params }: { params: { id: string } }) {
 
   // Fetch patient data on mount
   useEffect(() => {
+    if (!id) return; // Aguardar o id ser resolvido
+    
     fetch(`${API_URL}/patients/${id}`, {
       method: "GET",
       headers: {

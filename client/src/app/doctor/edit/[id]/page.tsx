@@ -6,9 +6,16 @@ import React, { useEffect, useState } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
 
-export default function DoctorEdit(params: any) {
+export default function DoctorEdit({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const id = params.params.id;
+  const [id, setId] = useState<string>("");
+
+  // Resolver params no lado do cliente
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setId(resolvedParams.id);
+    });
+  }, [params]);
 
   const [doctor, setDoctor] = useState<any>({
     name: "",
@@ -30,6 +37,8 @@ export default function DoctorEdit(params: any) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!id) return; // Aguardar o id ser resolvido
+    
     fetch(`${API_URL}/doctors/${id}`, {
       method: "GET",
       headers: {

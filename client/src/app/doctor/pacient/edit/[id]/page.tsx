@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:3001";
 
 interface PacientEditProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 interface Patient {
@@ -18,7 +18,14 @@ interface Patient {
 
 export default function PacientEdit({ params }: PacientEditProps) {
   const router = useRouter();
-  const id = params.id;
+  const [id, setId] = useState<string>("");
+
+  // Resolver params no lado do cliente
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setId(resolvedParams.id);
+    });
+  }, [params]);
 
   const [name, setName] = useState<string>("");
   const [birthDate, setBirthDate] = useState<string>("");
@@ -33,6 +40,8 @@ export default function PacientEdit({ params }: PacientEditProps) {
   });
 
   useEffect(() => {
+    if (!id) return; // Aguardar o id ser resolvido
+    
     fetch(`${API_URL}/patients/${id}`, {
       method: "GET",
       headers: {
