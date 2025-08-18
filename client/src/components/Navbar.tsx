@@ -172,6 +172,12 @@ const Navbar = () => {
                     >
                       Agendar Consulta
                     </Link>
+                    <Link
+                      href="/appointment/list"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600"
+                    >
+                      Listar Consultas
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -313,6 +319,13 @@ const Navbar = () => {
                 className="block text-gray-300 hover:text-white"
               >
                 Agendar Consulta
+              </Link>
+              <Link
+                href="/appointment/list"
+                onClick={closeMenu}
+                className="block text-gray-300 hover:text-white"
+              >
+                Listar Consultas
               </Link>
             </div>
           </div>
