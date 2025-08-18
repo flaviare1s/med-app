@@ -115,8 +115,8 @@ export default function Home() {
         )}
 
         <p className="text-center text-gray-500 text-sm mt-2">
-          Nota: Para testar o aplicativo, use usuário: <b>teste</b> e senha:{" "}
-          <b>1234</b>
+          Nota: Para testar o aplicativo, use usuário: <b>admin</b> e senha:{" "}
+          <b>admin</b>
         </p>
       </form>
     </div>
