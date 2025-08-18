@@ -29,8 +29,14 @@ export default function AppointmentEdit({
   params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
-  const resolvedParams = React.use(params);
-  const id = resolvedParams.id;
+  const [id, setId] = useState<string>("");
+
+  // Resolver params no lado do cliente
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setId(resolvedParams.id);
+    });
+  }, [params]);
 
   const [date, setDate] = useState<string>("");
   const [doctorId, setDoctorId] = useState<string>("");
@@ -57,6 +63,8 @@ export default function AppointmentEdit({
 
   // Fetch appointment data on mount
   useEffect(() => {
+    if (!id) return; // Aguardar o id ser resolvido
+
     const token = sessionStorage.getItem("token");
     if (!token) return;
 
